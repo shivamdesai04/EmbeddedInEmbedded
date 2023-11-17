@@ -95,6 +95,14 @@ void UserApp1Initialize(void)
   /* If good initialization, set state to Idle */
   if( 1 )
   {
+    LedOff(WHITE);
+    LedOff(PURPLE);
+    LedOff(BLUE);
+    LedOff(CYAN);
+    LedOff(GREEN);
+    LedOff(ORANGE);
+    LedOff(YELLOW);
+    LedOff(RED);
     UserApp1_pfStateMachine = UserApp1SM_Idle;
   }
   else
@@ -140,7 +148,70 @@ State Machine Function Definitions
 /* What does this state do? */
 static void UserApp1SM_Idle(void)
 {
+  static bool ledOnCheck = 0;
+  static uint16_t u16LedBlinkRate = 500;
+  if(IsButtonPressed(BUTTON0)) {
+    LedOn(WHITE);
+  }
+  else {
+    LedOff(WHITE);
+  }
+  
+  
+  if(WasButtonPressed(BUTTON1)) {
+    if(ledOnCheck == 0) {
+      LedBlink(YELLOW, LED_8HZ);
+      u16LedBlinkRate = 8;
+      ledOnCheck = 1;
+    }
+    else {
+      LedOff(YELLOW);
+      ledOnCheck = 0;
+    }
     
+    ButtonAcknowledge(BUTTON1);
+  }
+
+  if (ledOnCheck == 1) {
+    if (WasButtonPressed(BUTTON2)) {
+      switch (u16LedBlinkRate) {
+        case 500:
+          break;
+        case 8:
+          LedBlink(YELLOW, LED_0_5HZ);
+          u16LedBlinkRate = 0;
+          break;
+        case 0:
+          LedBlink(YELLOW, LED_1HZ);
+          u16LedBlinkRate = 1;
+          break;
+        case 1:
+          LedBlink(YELLOW, LED_2HZ);
+          u16LedBlinkRate = 2;
+          break;
+        case 2:
+          LedBlink(YELLOW, LED_4HZ);
+          u16LedBlinkRate = 4;
+          break;
+        case 4:
+          LedBlink(YELLOW, LED_8HZ);
+          u16LedBlinkRate = 8;
+          break;
+      }
+      ButtonAcknowledge(BUTTON2);
+    }
+  }
+  // else {
+  //  LedOff(YELLOW);
+  //}
+  
+  if (IsButtonHeld(BUTTON3, 2000)) {
+    LedOn(CYAN);
+  }
+  else {
+    LedOff(CYAN);
+  }
+  
 } /* end UserApp1SM_Idle() */
      
 
