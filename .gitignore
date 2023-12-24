@@ -3,4 +3,5 @@ Debug/
 *.bat
 *.TMP
 *.wspos
+*.wsdt
 doxygen/html
