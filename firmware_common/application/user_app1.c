@@ -92,6 +92,19 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
+  uint8_t u8String[] = "A string to print that returns cursor to start of the next line. \n\r";
+  uint8_t u8String2[] = "Here's a number: ";
+  uint8_t u8String3[] = "The 'cursor' was here.";
+  uint32_t u32Number = 1234567;
+  
+  DebugPrintf(u8String);
+  DebugPrintf(u8String2);
+  DebugPrintNumber(u32Number);
+  DebugPrintf(u8String3);
+  DebugLineFeed();
+  DebugPrintf(u8String3);
+  DebugLineFeed();
+  
   /* If good initialization, set state to Idle */
   if( 1 )
   {
