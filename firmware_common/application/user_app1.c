@@ -92,6 +92,11 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
+  LedOff(CYAN);
+  LedOff(GREEN);
+  LedOff(YELLOW);
+  LedOff(ORANGE);
+  
   LedOn(BLUE);
   
   LedToggle(PURPLE);
