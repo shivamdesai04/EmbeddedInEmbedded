@@ -156,9 +156,39 @@ static void UserApp1SM_Idle(void)
 {
     static uint16_t u16BlinkCounter = 0;
     static uint8_t u8Counter = 0;
+    static uint8_t u8ColorIndex = 0;
+    static uint8_t LCDRange[] = {0b111, 0b100, 0b110, 0b010, 0b011, 0b001, 0b101};
     
     u16BlinkCounter++;
     if ((u16BlinkCounter % 250)  == 0) {
+      
+      u8ColorIndex++;
+      if (u8ColorIndex == 7) {
+        u8ColorIndex = 0;
+      }
+      
+      if(LCDRange[u8ColorIndex] & 1) {
+        LedOn(LCD_RED);
+      }
+      else {
+        LedOff(LCD_RED);
+      }
+        
+      if(LCDRange[u8ColorIndex] & 2) {
+        LedOn(LCD_GREEN);
+      }
+      else {
+        LedOff(LCD_GREEN);
+      }
+      
+      if(LCDRange[u8ColorIndex] & 4) {
+        LedOn(LCD_BLUE);
+      }
+      else {
+        LedOff(LCD_BLUE);
+      }
+      
+      
       if (u8Counter & 1) {
         LedOn(GREEN);
       }
