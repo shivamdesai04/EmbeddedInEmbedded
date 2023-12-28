@@ -92,6 +92,8 @@ Promises:
 */
 void UserApp2Initialize(void)
 {
+  
+  
   /* If good initialization, set state to Idle */
   if( 1 )
   {
@@ -140,7 +142,7 @@ State Machine Function Definitions
 /* What does this state do? */
 static void UserApp2SM_Idle(void)
 {
-    
+    for(u32 i = 0; i < 50000; i++);
 } /* end UserApp2SM_Idle() */
      
 
