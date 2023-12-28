@@ -92,7 +92,7 @@ Promises:
 */
 void UserApp1Initialize(void)
 {
-  
+  PWMAudioSetFrequency(BUZZER1, 242);
   
   /* If good initialization, set state to Idle */
   if( 1 )
@@ -146,8 +146,6 @@ static void UserApp1SM_Idle(void)
     ButtonAcknowledge(BUTTON0);
     PWMAudioSetFrequency(BUZZER1, 262);
   }
-  
-  
   if(WasButtonPressed(BUTTON1)) {
     ButtonAcknowledge(BUTTON1);
     PWMAudioSetFrequency(BUZZER1, 294);
@@ -164,7 +162,6 @@ static void UserApp1SM_Idle(void)
     ButtonAcknowledge(BUTTON3);
     PWMAudioSetFrequency(BUZZER1, 392);
   }
-  
   
   if(IsButtonPressed(BUTTON0) || IsButtonPressed(BUTTON1) || IsButtonPressed(BUTTON2) || IsButtonPressed(BUTTON3)) {
     
