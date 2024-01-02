@@ -148,7 +148,38 @@ static void UserApp1SM_Idle(void)
   static u32 u32CurrentTimeElapsedRight = 0;
   static u16 u16CurrentNoteDurationRight = 0;
   static bool bNoteActiveRight = TRUE;
+  
+  static u16 au16NotesLeft[] =                  {F4, F4, A4, A4, D4, D4, F4, F4, A3S, A3S, D4, D4, C4, C4, E4, E4};
+  static u16 au16DurationLeft[] =               {EN, EN, EN, EN, EN, EN, EN, EN, EN,  EN,  EN, EN, EN, EN, EN, EN};
+  static u16 au16SilenceDurationLeft[] =        {RT, RT, RT, RT, RT, RT, RT, RT, RT,  RT,  RT, RT, RT, RT, RT, RT};
+
+  static u8 u8CurrentIndexLeft = 0;
+  static u32 u32CurrentTimeElapsedLeft = 0;
+  static u16 u16CurrentNoteDurationLeft = 0;
+  static bool bNoteActiveLeft = TRUE;
  
+  if (u8CurrentIndexLeft < 16) {
+    if (u32CurrentTimeElapsedLeft >= u16CurrentNoteDurationLeft) {
+      u32CurrentTimeElapsedLeft = 0;
+      if (bNoteActiveLeft == TRUE) {
+        PWMAudioSetFrequency(BUZZER1, au16NotesLeft[u8CurrentIndexLeft]);
+        PWMAudioOn(BUZZER1);
+        u16CurrentNoteDurationLeft = au16DurationLeft[u8CurrentIndexLeft];
+        bNoteActiveLeft = FALSE;
+      }
+      else if (bNoteActiveLeft == FALSE) {
+        PWMAudioOff(BUZZER1);
+        u16CurrentNoteDurationLeft = au16SilenceDurationLeft[u8CurrentIndexLeft];
+        u8CurrentIndexLeft++;
+        bNoteActiveLeft = TRUE;
+      }
+    }
+    u32CurrentTimeElapsedLeft++;
+    if (u8CurrentIndexLeft == 16) {
+      u8CurrentIndexLeft = 0;
+    }
+  }
+  
   if (u8CurrentIndexRight < 31) {
     if (u32CurrentTimeElapsedRight >= u16CurrentNoteDurationRight) {
       u32CurrentTimeElapsedRight = 0;
@@ -166,6 +197,9 @@ static void UserApp1SM_Idle(void)
       }
     }
     u32CurrentTimeElapsedRight++;
+    if (u8CurrentIndexRight == 31) {
+      u8CurrentIndexRight = 0;
+    }
   }
  
 } /* end UserApp1SM_Idle() */
