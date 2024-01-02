@@ -140,7 +140,34 @@ State Machine Function Definitions
 /* What does this state do? */
 static void UserApp1SM_Idle(void)
 {
-    
+  static u16 au16NotesRight[] =    {F5, F5, F5, F5, F5, E5, D5, E5, F5, G5, A5, A5, A5, A5, A5, G5, F5, G5, A5, A5S, C6, F5, F5, D6, C6, A5S, A5, G5, F5, NO, NO};
+  static u16 au16DurationRight[] = {QN, QN, HN, EN, EN, EN, EN, EN, EN, QN, QN, QN, HN, EN, EN, EN, EN, EN, EN, QN,  HN, HN, EN, EN, EN, EN,  QN, QN, HN, HN, FN};
+  static u16 au16SilenceDurationRight[] = {RT, RT, HT, RT, RT, RT, RT, RT, RT, RT, RT, RT, HT, RT, RT, RT, RT, RT, RT, RT,  RT, HT, RT, RT, RT, RT,  RT, RT, RT, HT, HT};
+
+  static u8 u8CurrentIndexRight = 0;
+  static u32 u32CurrentTimeElapsedRight = 0;
+  static u16 u16CurrentNoteDurationRight = 0;
+  static bool bNoteActiveRight = TRUE;
+ 
+  if (u8CurrentIndexRight < 31) {
+    if (u32CurrentTimeElapsedRight >= u16CurrentNoteDurationRight) {
+      u32CurrentTimeElapsedRight = 0;
+      if (bNoteActiveRight == TRUE) {
+        PWMAudioSetFrequency(BUZZER2, au16NotesRight[u8CurrentIndexRight]);
+        PWMAudioOn(BUZZER2);
+        u16CurrentNoteDurationRight = au16DurationRight[u8CurrentIndexRight];
+        bNoteActiveRight = FALSE;
+      }
+      else if (bNoteActiveRight == FALSE) {
+        PWMAudioOff(BUZZER2);
+        u16CurrentNoteDurationRight = au16SilenceDurationRight[u8CurrentIndexRight];
+        u8CurrentIndexRight++;
+        bNoteActiveRight = TRUE;
+      }
+    }
+    u32CurrentTimeElapsedRight++;
+  }
+ 
 } /* end UserApp1SM_Idle() */
      
 
